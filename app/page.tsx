@@ -5,8 +5,7 @@ import { useState } from "react";
 type Answer = "yes" | "no" | null;
 
 // 🔗 Google Apps Script API
-const API_URL =
-  "https://script.google.com/macros/s/AKfycbxEbz7pwWAcQS91qOBUJwAzg71I67mw6YETl-C85DHcmRJCgltzHMT-ch1cqKvY3R9x/exec";
+const API_URL = process.env.NEXT_PUBLIC_SCRIPT_URL!;
 
 /* ------------------ Progress Dots ------------------ */
 function ProgressDots({
