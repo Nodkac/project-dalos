@@ -16,16 +16,16 @@ export const metadata: Metadata = {
   title: "Project Dalos",
   description: "Daily resolution check-in",
   manifest: "/manifest.json",
-  themeColor: "#000000",
+  themeColor: "#000000", // correct for dark PWA
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark"> {/* locks dark mode */}
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

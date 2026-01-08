@@ -23,8 +23,8 @@ function ProgressDots({
           key={index}
           className={`h-2 w-2 rounded-full transition-all ${
             index === currentStep
-              ? "bg-black scale-110"
-              : "bg-gray-300"
+              ? "bg-neutral-100 scale-110"
+              : "bg-neutral-600"
           }`}
         />
       ))}
@@ -50,7 +50,7 @@ export default function Home() {
     setError(null);
 
     const payload = {
-      date: new Date().toISOString().slice(0, 10), // YYYY-MM-DD
+      date: new Date().toISOString().slice(0, 10),
       skincare,
       zeroSugar,
       notes,
@@ -69,7 +69,7 @@ export default function Home() {
         throw new Error(data.message || "Submission failed");
       }
 
-      setStep(4); // success screen
+      setStep(4);
     } catch (err: any) {
       setError(err.message || "Something went wrong");
     } finally {
@@ -78,10 +78,10 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-neutral-100 px-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg px-6 pt-4 pb-6">
+    <main className="min-h-screen flex items-center justify-center bg-neutral-950 px-4">
+      <div className="w-full max-w-md bg-neutral-900 rounded-2xl shadow-lg px-6 pt-4 pb-6">
 
-        {/* Progress dots (only for question steps) */}
+        {/* Progress dots */}
         {step < 3 && <ProgressDots currentStep={step} totalSteps={3} />}
 
         {/* STEP 0 — Skincare */}
@@ -109,22 +109,30 @@ export default function Home() {
         {/* STEP 2 — Notes */}
         {step === 2 && (
           <div className="animate-fade-in space-y-4 text-center">
-            <h1 className="text-xl font-semibold">
+            <h1 className="text-xl font-semibold text-neutral-100">
               Anything worth noting?
             </h1>
 
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="w-full border rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-black"
+              className="
+                w-full rounded-xl p-3
+                bg-neutral-800 border border-neutral-700
+                text-neutral-100
+                focus:outline-none focus:ring-2 focus:ring-neutral-100
+              "
               placeholder="Optional notes..."
               rows={4}
             />
 
             <button
               onClick={next}
-              className="w-full bg-black text-white py-3 rounded-full text-lg
-                         active:scale-95 transition"
+              className="
+                w-full bg-neutral-100 text-neutral-900
+                py-3 rounded-full text-lg
+                active:scale-95 transition
+              "
             >
               Continue
             </button>
@@ -134,22 +142,28 @@ export default function Home() {
         {/* STEP 3 — Submit */}
         {step === 3 && (
           <div className="animate-fade-in space-y-6 text-center">
-            <h1 className="text-xl font-semibold">All set 🎯</h1>
+            <h1 className="text-xl font-semibold text-neutral-100">
+              All set 
+            </h1>
 
             {error && (
-              <p className="text-red-500 text-sm">{error}</p>
+              <p className="text-red-400 text-sm">{error}</p>
             )}
 
             <button
               onClick={handleSubmit}
               disabled={loading}
-              className="w-full bg-black text-white py-3 rounded-full text-lg
-                         active:scale-95 transition disabled:opacity-50"
+              className="
+                w-full bg-neutral-100 text-neutral-900
+                py-3 rounded-full text-lg
+                active:scale-95 transition
+                disabled:opacity-50
+              "
             >
               {loading ? "Saving..." : "Submit"}
             </button>
 
-            <button className="w-full text-gray-500 underline text-sm">
+            <button className="w-full text-neutral-400 underline text-sm">
               Remind me in 6 hours
             </button>
           </div>
@@ -158,8 +172,10 @@ export default function Home() {
         {/* STEP 4 — Success */}
         {step === 4 && (
           <div className="animate-fade-in space-y-4 text-center">
-            <h1 className="text-2xl font-semibold">Done for today ✨</h1>
-            <p className="text-gray-600">
+            <h1 className="text-2xl font-semibold text-neutral-100">
+              Done for today ✨
+            </h1>
+            <p className="text-neutral-400">
               Your check-in has been saved.
             </p>
           </div>
@@ -179,7 +195,9 @@ function Question({
 }) {
   return (
     <div className="animate-fade-in space-y-6 text-center">
-      <h1 className="text-xl font-semibold">{question}</h1>
+      <h1 className="text-xl font-semibold text-neutral-100">
+        {question}
+      </h1>
 
       <div className="flex gap-4 justify-center">
         <PillButton label="Yes" onClick={() => onAnswer("yes")} />
@@ -199,8 +217,13 @@ function PillButton({
   return (
     <button
       onClick={onClick}
-      className="px-8 py-3 rounded-full border border-black text-lg font-medium
-                 active:scale-95 transition hover:bg-black hover:text-white"
+      className="
+        px-8 py-3 rounded-full
+        border border-neutral-700
+        text-neutral-200 text-lg font-medium
+        hover:bg-neutral-100 hover:text-neutral-900
+        active:scale-95 transition
+      "
     >
       {label}
     </button>
