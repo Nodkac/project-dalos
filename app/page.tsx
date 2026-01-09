@@ -39,6 +39,8 @@ export default function Home() {
   const [zeroSugar, setZeroSugar] = useState<Answer>(null);
   const [notes, setNotes] = useState("");
 
+  const [streak, setStreak] = useState<number | null>(null);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -68,6 +70,7 @@ export default function Home() {
         throw new Error(data.message || "Submission failed");
       }
 
+      setStreak(data.streak);
       setStep(4);
     } catch (err: any) {
       setError(err.message || "Something went wrong");
@@ -76,34 +79,13 @@ export default function Home() {
     }
   }
 
-  /* 🔔 TEST NOTIFICATION FUNCTION */
-  async function testNotification() {
-    if (!("Notification" in window)) {
-      alert("Notifications are not supported on this device");
-      return;
-    }
-
-    const permission = await Notification.requestPermission();
-
-    if (permission !== "granted") {
-      alert("Notification permission not granted");
-      return;
-    }
-
-    new Notification("Dalos test notification 🔔", {
-      body: "If you see this on your phone, notifications are working.",
-      icon: "/icon-192.png",
-    });
-  }
-
   return (
     <main className="min-h-screen flex items-center justify-center bg-neutral-950 px-4">
       <div className="w-full max-w-md bg-neutral-900 rounded-2xl shadow-lg px-6 pt-4 pb-6">
 
-        {/* Progress dots */}
         {step < 3 && <ProgressDots currentStep={step} totalSteps={3} />}
 
-        {/* STEP 0 — Skincare */}
+        {/* STEP 0 */}
         {step === 0 && (
           <Question
             question="Did you do your skincare today?"
@@ -114,7 +96,7 @@ export default function Home() {
           />
         )}
 
-        {/* STEP 1 — Zero sugar */}
+        {/* STEP 1 */}
         {step === 1 && (
           <Question
             question="Zero sugar today?"
@@ -125,7 +107,7 @@ export default function Home() {
           />
         )}
 
-        {/* STEP 2 — Notes */}
+        {/* STEP 2 */}
         {step === 2 && (
           <div className="animate-fade-in space-y-4 text-center">
             <h1 className="text-xl font-semibold text-neutral-100">
@@ -158,7 +140,7 @@ export default function Home() {
           </div>
         )}
 
-        {/* STEP 3 — Submit */}
+        {/* STEP 3 */}
         {step === 3 && (
           <div className="animate-fade-in space-y-6 text-center">
             <h1 className="text-xl font-semibold text-neutral-100">
@@ -181,35 +163,26 @@ export default function Home() {
             >
               {loading ? "Saving..." : "Submit"}
             </button>
-
-            <button className="w-full text-neutral-400 underline text-sm">
-              Remind me in 6 hours
-            </button>
           </div>
         )}
 
-        {/* STEP 4 — Success */}
+        {/* STEP 4 — SUCCESS + STREAK */}
         {step === 4 && (
           <div className="animate-fade-in space-y-4 text-center">
             <h1 className="text-2xl font-semibold text-neutral-100">
               Done for today ✨
             </h1>
-            <p className="text-neutral-400">
-              Your check-in has been saved.
-            </p>
 
-            {/* 🔔 TEST NOTIFICATION BUTTON */}
-            <button
-              onClick={testNotification}
-              className="
-                w-full mt-4
-                bg-neutral-100 text-neutral-900
-                py-3 rounded-full text-lg
-                active:scale-95 transition
-              "
-            >
-              Fire test notification
-            </button>
+            {streak !== null && (
+              <div className="mt-4 rounded-xl bg-neutral-800 px-4 py-3">
+                <p className="text-3xl font-bold text-neutral-100">
+                  🔥 {streak}-day streak
+                </p>
+                <p className="text-neutral-400 mt-1 text-sm">
+                  You’ve shown up {streak} day{streak > 1 ? "s" : ""} in a row.
+                </p>
+              </div>
+            )}
           </div>
         )}
       </div>
