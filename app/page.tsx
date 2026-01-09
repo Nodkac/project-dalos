@@ -76,6 +76,26 @@ export default function Home() {
     }
   }
 
+  /* 🔔 TEST NOTIFICATION FUNCTION */
+  async function testNotification() {
+    if (!("Notification" in window)) {
+      alert("Notifications are not supported on this device");
+      return;
+    }
+
+    const permission = await Notification.requestPermission();
+
+    if (permission !== "granted") {
+      alert("Notification permission not granted");
+      return;
+    }
+
+    new Notification("Dalos test notification 🔔", {
+      body: "If you see this on your phone, notifications are working.",
+      icon: "/icon-192.png",
+    });
+  }
+
   return (
     <main className="min-h-screen flex items-center justify-center bg-neutral-950 px-4">
       <div className="w-full max-w-md bg-neutral-900 rounded-2xl shadow-lg px-6 pt-4 pb-6">
@@ -142,7 +162,7 @@ export default function Home() {
         {step === 3 && (
           <div className="animate-fade-in space-y-6 text-center">
             <h1 className="text-xl font-semibold text-neutral-100">
-              All set 
+              All set
             </h1>
 
             {error && (
@@ -177,6 +197,19 @@ export default function Home() {
             <p className="text-neutral-400">
               Your check-in has been saved.
             </p>
+
+            {/* 🔔 TEST NOTIFICATION BUTTON */}
+            <button
+              onClick={testNotification}
+              className="
+                w-full mt-4
+                bg-neutral-100 text-neutral-900
+                py-3 rounded-full text-lg
+                active:scale-95 transition
+              "
+            >
+              Fire test notification
+            </button>
           </div>
         )}
       </div>
