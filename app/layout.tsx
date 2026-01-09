@@ -27,10 +27,25 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark"> {/* locks dark mode */}
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+  className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+>
+  {children}
+
+  <script
+    dangerouslySetInnerHTML={{
+      __html: `
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker
+              .register('/sw.js')
+              .then(() => console.log('Service Worker registered'))
+              .catch(err => console.error('Service Worker registration failed', err));
+          });
+        }
+      `,
+    }}
+  />
+</body>
     </html>
   );
 }
